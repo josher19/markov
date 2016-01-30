@@ -17,16 +17,16 @@ var Markov = function (file) {
         if (file) this.setSourceFile(file);
 
         return this;
-    };
+};
 
 var proto = Markov.prototype;
 
 proto.setSourceString = function (str) {
-        this.text = str
+        this.text = str;
 };
 
 proto.source = function (str) {
-    return this.text
+    return this.text;
 };
 proto.setSourceString = function (str) {
     this.text = str;
@@ -70,8 +70,6 @@ function shuffle(array) {
  * @return string of at least num_words words
  */
 proto.generate = function generate(num_words) {
-    var $this = this;
-
     if (!this.text) {
         throw new Error("Markov can not generate without text");
     }
@@ -96,7 +94,8 @@ proto.generate = function generate(num_words) {
 
     var loopmax = textwords.length - (gran - 2) - 1;
 
-    frequency_table = {};
+    var frequency_table = {}, key_string, end, buffer, lastwords, possible, nextword;
+    var j, k, i, c, l, r;
 
     for (j = 0; j < loopmax; j ++) {
         key_string = "";
@@ -117,45 +116,45 @@ proto.generate = function generate(num_words) {
         }
     }
 
-    $buffer = "";
-    $lastwords = [];
+    buffer = "";
+    lastwords = [];
 
-    for ($i = 0; $i < gran; $i ++) {
-        $lastwords.push(textwords[$i]);
-        $buffer += " " + textwords[$i];
+    for (var i = 0; i < gran; i ++) {
+        lastwords.push(textwords[i]);
+        buffer += " " + textwords[i];
     }
 
-    for ($i = 0; $i < num_words; $i ++) {
+    for (i = 0; i < num_words; i ++) {
         key_string = "";
 
-        for ($j = 0; $j < gran; $j ++) {
-            key_string += $lastwords[$j] + " ";
+        for (j = 0; j < gran; j ++) {
+            key_string += lastwords[j] + " ";
         }
 
         if (frequency_table[key_string]) {
-            $possible = frequency_table[key_string].trim().split(" ");
+            possible = frequency_table[key_string].trim().split(" ");
 
             // mt_srand();
-            $c = $possible.length;
-            $r = Math.floor($c * Math.random());
-            $nextword = $possible[$r];
-            $buffer += " " + $nextword;
+            c = possible.length;
+            r = Math.floor(c * Math.random());
+            nextword = possible[r];
+            buffer += " " + nextword;
 
-            if ($buffer.length >= letters_line) {
-                output += $buffer;
-                $buffer = "";
+            if (buffer.length >= letters_line) {
+                output += buffer;
+                buffer = "";
             }
 
-            for ($l = 0; $l < gran - 1; $l ++) {
-                $lastwords[$l] = $lastwords[$l + 1];
+            for (l = 0; l < gran - 1; l ++) {
+                lastwords[l] = lastwords[l + 1];
             }
 
-            $lastwords[gran - 1] = $nextword;
+            lastwords[gran - 1] = nextword;
         } else {
-            // $lastwords.splice(0, $lastwords.length); // array_splice($lastwords, 0, count($lastwords));
-            for ($l = 0; $l < gran; $l ++) {
-                $lastwords.push(textwords[$l]);
-                $buffer += " " + textwords[$l];
+            // lastwords.splice(0, lastwords.length); // array_splice(lastwords, 0, count(lastwords));
+            for (l = 0; l < gran; l ++) {
+                lastwords.push(textwords[l]);
+                buffer += " " + textwords[l];
             }
         }
     }
@@ -163,6 +162,6 @@ proto.generate = function generate(num_words) {
     output = output.trim();
 
     return output;
-}
+};
 
 module.exports = Markov;
