@@ -1,5 +1,6 @@
 # markov
 Markov chains from text, in node
 
-Sean Sullivan
-Translated from PHP to Node by Joshua Weinstein (josher19)
+Original PHP by Sean Sullivan (@seansullivan)
+
+Translated from PHP to Node by Joshua Weinstein (@josher19)

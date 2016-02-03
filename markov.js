@@ -1,15 +1,15 @@
 /**
  * Markov chain class to generate random strings from source
  *
- * @example
+ * Example usage:
  *
  *     // echo a markov chain from file
  *     var markov = new Markov();
  *     markov.setSourceFile('/path/to/story');
  *     console.log(markov->generate(20));
  *
- * @author Sean Sullivan
- * @author Translated from PHP to Node by Joshua Weinstein (josher19)
+ * Author: Sean Sullivan
+ * Author: Translated from PHP to Node by Joshua Weinstein (josher19)
  */
 var fs = require("fs");
 
@@ -28,26 +28,40 @@ proto.setSourceString = function (str) {
 proto.source = function (str) {
     return this.text;
 };
+
+/**
+ * Get Markov source from a string
+ * Example usage: 
+ *    new Markov().setSourceString('hello Markov').source() === 'hello Markov';
+ */
 proto.setSourceString = function (str) {
     this.text = str;
 
     return this;
 };
 
-// new Markov().setSourceString('hello Markov').source() === 'hello Markov';
+
+/** 
+ * Get Markov source from a File
+ * Example usage:
+ *    typeof new Markov().setSourceFile(__dirname + '/markov.js').source() === 'string';
+ */
 proto.setSourceFile = function (file, encoding) {
     this.text = fs.readFileSync(file, encoding || "utf-8");
 
     return this;
 };
 
-// typeof new Markov().setSourceFile(__dirname + '/markov.js').source() === 'string';
-/* Strip HTML tags */
+
+/** Strip HTML tags */
 function strip_tags(inp) {
     return inp.replace(/<[^>]*?>/g, " ");
 }
 
-// function htmlentities(inp) { return inp.replace(/\&([^; ]*?);/g, ''); }
+// If we need to strip html entities, use this:
+//~ function htmlentities(inp) { return inp.replace(/\&([^; ]*?);/g, ''); }
+
+/**  Based on Fisher-Yates shuffle popularized by Knuth */
 function shuffle(array) {
     for (var curIndex = array.length - 1; curIndex > 0;) {
         var rand = Math.floor(curIndex * Math.random());
