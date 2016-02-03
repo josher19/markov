@@ -1,3 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>markov.js - documentation by minidocs</title>
+    <link rel="stylesheet" href="web/style.css" />
+    <link rel="stylesheet" href="web/code.css" />
+    <link rel="stylesheet" href="web/tooltip.css" />
+
+    <script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-26487682-3']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+    <nav>
+        <h1>markov <abbr title="Table of Contents">TOC</abbr></h1>
+        <ul class="toc"></ul>
+    </nav>
+
+    <section id="content">
+<pre><code data-language="javascript">
 /**
  * Markov chain class to generate random strings from source
  *
@@ -6,7 +35,7 @@
  *     // echo a markov chain from file
  *     var markov = new Markov();
  *     markov.setSourceFile('/path/to/story');
- *     console.log(markov->generate(20));
+ *     console.log(markov-&gt;generate(20));
  *
  * Author: Sean Sullivan
  * Author: Translated from PHP to Node by Joshua Weinstein (josher19)
@@ -55,7 +84,7 @@ proto.setSourceFile = function (file, encoding) {
 
 /** Strip HTML tags */
 function strip_tags(inp) {
-    return inp.replace(/<[^>]*?>/g, " ");
+    return inp.replace(/&lt;[^&gt;]*?&gt;/g, " ");
 }
 
 // If we need to strip html entities, use this:
@@ -63,7 +92,7 @@ function strip_tags(inp) {
 
 /**  Based on Fisher-Yates shuffle popularized by Knuth */
 function shuffle(array) {
-    for (var curIndex = array.length - 1; curIndex > 0;) {
+    for (var curIndex = array.length - 1; curIndex &gt; 0;) {
         var rand = Math.floor(curIndex * Math.random());
 
         --curIndex;
@@ -109,13 +138,13 @@ proto.generate = function generate(num_words) {
     var loopmax = textwords.length - (gran - 2) - 1;
 
     var frequency_table = {}, key_string, end, buffer, lastwords, possible, nextword;
-    var j, k, i, c, l, r; // TODO: better names for loop variables
+    var j, k, i, c, l, r; // TODO: Better names for loop variables
 
-    for (j = 0; j < loopmax; j ++) {
+    for (j = 0; j &lt; loopmax; j ++) {
         key_string = "";
         end = j + gran;
 
-        for (k = j; k < end; k ++) {
+        for (k = j; k &lt; end; k ++) {
             key_string += textwords[k] + " ";
         }
 
@@ -125,7 +154,7 @@ proto.generate = function generate(num_words) {
             frequency_table[key_string] += textwords[j + gran] + " ";
         }
 
-        if ((j + gran) > loopmax) {
+        if ((j + gran) &gt; loopmax) {
             break;
         }
     }
@@ -133,15 +162,15 @@ proto.generate = function generate(num_words) {
     buffer = "";
     lastwords = [];
 
-    for (var i = 0; i < gran; i ++) {
+    for (var i = 0; i &lt; gran; i ++) {
         lastwords.push(textwords[i]);
         buffer += " " + textwords[i];
     }
 
-    for (i = 0; i < num_words; i ++) {
+    for (i = 0; i &lt; num_words; i ++) {
         key_string = "";
 
-        for (j = 0; j < gran; j ++) {
+        for (j = 0; j &lt; gran; j ++) {
             key_string += lastwords[j] + " ";
         }
 
@@ -153,18 +182,18 @@ proto.generate = function generate(num_words) {
             nextword = possible[r];
             buffer += " " + nextword;
 
-            if (buffer.length >= letters_line) {
+            if (buffer.length &gt;= letters_line) {
                 output += buffer;
                 buffer = "";
             }
 
-            for (l = 0; l < gran - 1; l ++) {
+            for (l = 0; l &lt; gran - 1; l ++) {
                 lastwords[l] = lastwords[l + 1];
             }
 
             lastwords[gran - 1] = nextword;
         } else {
-            for (l = 0; l < gran; l ++) {
+            for (l = 0; l &lt; gran; l ++) {
                 lastwords.push(textwords[l]);
                 buffer += " " + textwords[l];
             }
@@ -177,3 +206,13 @@ proto.generate = function generate(num_words) {
 };
 
 module.exports = Markov;
+
+</code></pre>
+    <footer class="endnote" id="endnote"><em>Created with <a href="http://github.com/josher19/minidocs/">Minidocs</a></em></footer>
+    </section>    
+<script src="web/rainbow.js"></script>
+<script src="web/minidocs.js"></script>
+<script src="web/js/markov_docs.js"></script>
+<script src="web/js/toc.js"></script>
+</body>
+</html>
